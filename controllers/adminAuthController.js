@@ -19,9 +19,9 @@ export const signup = async (req,res)=>{
         if(!phone){
             return res.send({error:"phone is required"})
         }
-        if(!role){
-            return res.send({error:"role is required"})
-        }
+        // if(!role){
+        //     return res.send({error:"role is required"})
+        // }
 
         // validation for existing user 
         const existingUser = await userModel.findOne({email});
