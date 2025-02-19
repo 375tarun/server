@@ -5,6 +5,7 @@ import morgan from 'morgan'
 import connectDb from './config/dbConfig.js';
 import adminAuthRoutes from './routes/adminAuthRoutes.js'
 import testPapersRoutes from './routes/testPapersRoutes.js'
+import questionRoutes from './routes/questionRoutes.js'
 
 
 dotenv.config();
@@ -28,11 +29,9 @@ app.use(morgan('dev'))
 //routes
 app.use('/api/adminAuth',adminAuthRoutes)
 app.use('/api/test',testPapersRoutes)
+app.use('/api/question',questionRoutes)
 
-app.get('/', (req, res)=> {
-  res.send('Hello World')
-})
-const PORT = 8080;
+const PORT =  process.env.PORT;
 app.listen(PORT, ()=>{
     console.log(`server is running ${PORT}`)
 })
