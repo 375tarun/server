@@ -20,7 +20,7 @@ const questionSchema = mongoose.Schema(
       type: [String],
       validate: {
         validator: function (val) {
-          return this.answerType !== "typed"
+          return this.questionType !== "typed"
             ? val.length >= 2 && val.length <= 4
             : true;
         },
@@ -28,25 +28,22 @@ const questionSchema = mongoose.Schema(
       },
     },
     correctOption: {
-      type: mongoose.Schema.Types.Mixed,
+      type: [String],
       required: true,
       validate: {
         validator: function (val) {
           if (this.questionType === "single") {
-            return typeof val === "string" && this.options.includes(val);
+            return val.length === 1 && this.options.includes(val[0]);
           }
           if (this.questionType === "multiple") {
-            return (
-              Array.isArray(val) &&
-              val.every((ans) => this.options.includes(ans))
-            );
+            return val.length > 0 && val.every((ans) => this.options.includes(ans));
           }
           if (this.questionType === "typed") {
-            return typeof val === "string";
+            return val.length > 0 && val.every((ans) => typeof ans === "string");
           }
           return false;
         },
-        message: "correct answer validation falied",
+        message: "Correct answer validation failed",
       },
     },
     marks: {

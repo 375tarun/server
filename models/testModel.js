@@ -36,7 +36,7 @@ const testSchema = mongoose.Schema({
         required:true
     },
     testTopic:{
-        type:String,
+        type:[String],
         enum:['time and distance','work','probability','statistics','algebra','geometry'],
         required:true
     }

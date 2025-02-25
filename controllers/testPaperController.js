@@ -27,7 +27,7 @@ export const createTest = async (req, res) => {
       !testTopic ||
       !testType
     ) {
-      return res.send({ error: "please fill all the field" });
+      return res.status(400).json({ error: "please fill all the field" });
     }
 
     //if cleared all the  validation tests creating the test
@@ -43,7 +43,7 @@ export const createTest = async (req, res) => {
       testTopic,
     }).save();
 
-    res.status(201).send({
+    return res.status(201).json({
       success: true,
       message: "test created successfully",
       newtest,
@@ -57,38 +57,40 @@ export const createTest = async (req, res) => {
     });
   }
 };
-
 export const getTest = async (req, res) => {
   try {
     const { testId } = req.params;
 
     if (testId) {
       const test = await testModel.findById(testId);
-      res.status(200).send({
+      return res.status(200).send({
         success: true,
-        message: "test found",
-        test,
+        message: "Test found",
+        test // Convert object to an array
       });
     } else {
       return res.status(404).send({
         success: false,
-        message: "test not found",
+        message: "Test not found",
+        test: {} // Return empty array if testId is missing
       });
     }
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "error in test controller",
+      message: "Error in test controller",
       error,
+      tests, // Return empty array in case of an error
     });
   }
 };
 
+
 export const getAllTest = async (req, res) => {
     try {
-        const tests = await testModel.find({});
-        res.status(200).send({
+        const tests = await testModel.find();
+       return res.status(200).send({
             success:true,
             message:"all tests retrieved succcessfully",
             tests

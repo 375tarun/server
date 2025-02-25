@@ -46,7 +46,7 @@ export const createQuestion = async (req, res) => {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "error ini createquestion controller",
+      message: "error in create question controller",
       error,
     });
   }
@@ -96,17 +96,28 @@ export const editQuestion = async (req, res) => {
 
 export const getAllQuestion = async (req, res) => {
   try {
-    const questions = await questionModel.find({});
+    const { testPaperId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(testPaperId)) {
+      return res.status(400).send({
+        success: false,
+        message: "Invalid testPaperId format",
+      });
+    }
+
+    const questions = await questionModel.find({testPaperId
+    });
+
     res.status(200).send({
       success: true,
-      message: "all tests retrieved succcessfully",
+      message: "All questions retrieved successfully",
       questions,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).send({
       success: false,
-      message: "error in question controller",
+      message: "Error retrieving questions",
       error,
     });
   }
