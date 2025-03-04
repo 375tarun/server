@@ -8,6 +8,7 @@ import testPapersRoutes from './routes/testPapersRoutes.js'
 import questionRoutes from './routes/questionRoutes.js'
 
 
+
 dotenv.config();
 
 connectDb();
@@ -30,6 +31,7 @@ app.use(morgan('dev'))
 app.use('/api/adminAuth',adminAuthRoutes)
 app.use('/api/test',testPapersRoutes)
 app.use('/api/question',questionRoutes)
+
 
 const PORT =  process.env.PORT;
 app.listen(PORT, ()=>{
